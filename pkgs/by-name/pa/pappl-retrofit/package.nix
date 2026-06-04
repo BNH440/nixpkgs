@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  fetchpatch,
   autoreconfHook,
   pkg-config,
   cups,
@@ -20,6 +21,14 @@ stdenv.mkDerivation rec {
     rev = version;
     hash = "sha256-YBU1uFleyDsseHnEnbEd4XFL/4NF2WTMK3kNDZjyBaY=";
   };
+
+  patches = [
+    (fetchpatch {
+      name = "include-cups-sidechannel-h.patch";
+      url = "https://github.com/OpenPrinting/pappl-retrofit/commit/0317fae79cef0c2ed47850183bf64116004ad3c7.patch";
+      sha256 = "sha256-kIpA9vuBY4j74hg3uovbYWMC/pZGZwqvVlHHzJW/8Vo=";
+    })
+  ];
 
   nativeBuildInputs = [
     autoreconfHook
