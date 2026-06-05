@@ -47,7 +47,7 @@ stdenv.mkDerivation {
     description = "PostScript Printer Application";
     homepage = "https://github.com/OpenPrinting/ps-printer-app";
     license = licenses.asl20;
-    maintainers = [ ];
+    maintainers = with lib.maintainers; [ bnh440 ];
     platforms = platforms.unix;
   };
 }

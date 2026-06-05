@@ -96,7 +96,7 @@ stdenv.mkDerivation {
     description = "HPLIP Printer Application";
     homepage = "https://github.com/OpenPrinting/hplip-printer-app";
     license = if withPlugin then licenses.unfree else licenses.asl20;
-    maintainers = [ ];
+    maintainers = with lib.maintainers; [ bnh440 ];
     platforms = platforms.unix;
   };
 }

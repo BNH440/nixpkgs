@@ -56,7 +56,7 @@ stdenv.mkDerivation rec {
       inherit homepage;
       changelog = "${homepage}/releases/tag/${version}";
       license = licenses.asl20;
-      maintainers = [ ];
+      maintainers = with lib.maintainers; [ bnh440 ];
       platforms = platforms.unix;
     };
 }

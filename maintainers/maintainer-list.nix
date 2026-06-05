@@ -3763,6 +3763,12 @@
     github = "bmwalters";
     githubId = 4380777;
   };
+  bnh440 = {
+    name = "Blake Haug";
+    email = "blake@blakehaug.com";
+    github = "BNH440";
+    githubId = 33404760;
+  };
   bnjmnt4n = {
     name = "Benjamin Tan";
     github = "bnjmnt4n";
