@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchurl,
+  fetchFromGitLab,
   replaceVars,
   pkg-config,
   autoreconfHook,
@@ -41,6 +42,21 @@ let
     url = "mirror://sourceforge/hplip/hplip-${version}.tar.gz";
     hash = "sha256-ucYSUnVPNbSiNzlsqJYeez4MVtt21mpnEre/PjDmlGM=";
   };
+
+  patchSource = fetchFromGitLab {
+    domain = "salsa.debian.org";
+    owner = "printing-team";
+    repo = "hplip.v2";
+    tag = "debian/3.26.4+dfsg0-3";
+    hash = "sha256-NrNJen+VFiHIoNqE62w9w5vc2geCbVZjOjNRA4CmX1A=";
+  };
+  patchesDir = "${patchSource}/debian/patches";
+  patchFiles = builtins.attrNames (
+    lib.attrsets.filterAttrs (name: type: type == "regular" && lib.strings.hasSuffix ".patch" name) (
+      builtins.readDir patchesDir
+    )
+  );
+  debianPatches = map (name: "${patchesDir}/${name}") patchFiles;
 
   plugin = fetchurl {
     url = "https://developers.hp.com/sites/default/files/2026-05/hplip-${version}-plugin.run";
@@ -157,7 +173,8 @@ python3Packages.buildPythonApplication {
       url = "https://web.archive.org/web/20230226174550/https://sources.debian.org/data/main/h/hplip/3.22.10+dfsg0-1/debian/patches/0028-Remove-ImageProcessor-binary-installs.patch";
       hash = "sha256-tNYccuwrcx5WCe7ULk8r8J6MVcUytGspiW64zAvO0qI=";
     })
-  ];
+  ]
+  ++ debianPatches;
 
   postPatch = ''
     # https://github.com/NixOS/nixpkgs/issues/44230
